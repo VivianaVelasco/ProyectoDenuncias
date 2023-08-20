@@ -84,20 +84,20 @@ export class DenunciasService {
   async getByFilter(motivo: number, parroquia: number): Promise<Denuncias[]> {
     let q = this.denunciasRepository
       .createQueryBuilder('denuncias')
-      .innerJoin('parroquias.id', 'parroquias')
-      .innerJoin('motivos.id', 'motivos');
+      .leftJoinAndSelect('denuncias.motivo', 'motivos')
+      .leftJoinAndSelect('denuncias.usuario', 'usuarios')
+      .leftJoinAndSelect('denuncias.parroquia', 'parroquias');
 
     if (motivo !== 0 && motivo !== undefined) {
-      q = q.where('motivo.id = :motivo', { motivo });
+      q = q.where('denuncias.motivo.id = :motivo', { motivo });
     }
 
     if (parroquia !== 0 && parroquia !== undefined) {
-      q = q.where('parroquia.id = :parroquia', { parroquia });
+      q = q.where('denuncias.parroquia.id = :parroquia', { parroquia });
     }
 
     return q.getMany();
   }
-
   // Fin
 
 }

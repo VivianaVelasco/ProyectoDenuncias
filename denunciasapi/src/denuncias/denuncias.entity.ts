@@ -28,4 +28,6 @@ export class Denuncias {
 
   @ManyToOne(() => Motivos, (motivo) => motivo.denuncias)
   motivo: Motivos;
+
+  
 }
