@@ -57,4 +57,47 @@ export class DenunciasService {
 
   // Fin
 
+   // Viviana Velasco
+   async findOne(id: number) {
+    return await this.denunciasRepository.findOneBy({ id });
+  }
+
+  async delete(id: number) {
+    return await this.denunciasRepository.delete({ id });
+  }
+
+  async getByUsuario(id: number): Promise<Denuncias[]> {
+    return await this.denunciasRepository.find({
+      relations: {
+        usuario: true,
+        parroquia: true,
+        motivo: true,
+      },
+      where: {
+        usuario: {
+          id,
+        },
+      },
+    });
+  }
+
+  async getByFilter(motivo: number, parroquia: number): Promise<Denuncias[]> {
+    let q = this.denunciasRepository
+      .createQueryBuilder('denuncias')
+      .innerJoin('parroquias.id', 'parroquias')
+      .innerJoin('motivos.id', 'motivos');
+
+    if (motivo !== 0 && motivo !== undefined) {
+      q = q.where('motivo.id = :motivo', { motivo });
+    }
+
+    if (parroquia !== 0 && parroquia !== undefined) {
+      q = q.where('parroquia.id = :parroquia', { parroquia });
+    }
+
+    return q.getMany();
+  }
+
+  // Fin
+
 }

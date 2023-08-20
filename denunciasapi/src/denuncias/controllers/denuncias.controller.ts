@@ -45,4 +45,41 @@ export class DenunciasController {
 
   // Fin
 
+ // Viviana Velasco
+ @Get('usuario/:id')
+ async getDenunciasByUser(@Param('id') id: number) {
+   const response = await this.denunciasService.getByUsuario(id);
+   return response;
+ }
+
+ @Get('/filter')
+ async getDenunciasByFilter(
+   @Query('parroquia') parroquia: number,
+   @Query('motivo') motivo: number,
+ ) {
+   console.log(parroquia, motivo);
+   const response = await this.denunciasService.getByFilter(parroquia, motivo);
+   return response;
+ }
+
+ @Delete(':id')
+ @HttpCode(200)
+ async deleteDenuncia(@Param('id') id: number) {
+   const response = await this.denunciasService.delete(id);
+   return response;
+ }
+
+ @Get('/:id')
+ async getDenunciaById(@Param('id') id: number) {
+   try {
+     const response = await this.denunciasService.findOne(id);
+     return response;
+   } catch (error) {
+     return new HttpException(
+       'No encontro la denuncia o fue eliminada',
+       HttpStatus.NOT_FOUND,
+     );
+   }
+ }
+ //Fin
 }
