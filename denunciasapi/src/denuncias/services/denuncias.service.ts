@@ -21,6 +21,9 @@ export class DenunciasService {
   async findFiveRecent() {
     return await this.denunciasRepository
       .createQueryBuilder('denuncias')
+      .leftJoinAndSelect('denuncias.motivo', 'motivos')
+      .leftJoinAndSelect('denuncias.usuario', 'usuarios')
+      .leftJoinAndSelect('denuncias.parroquia', 'parroquias')
       .select()
       .orderBy('denuncias.createdAt', 'DESC')
       .take(5)
@@ -57,8 +60,8 @@ export class DenunciasService {
 
   // Fin
 
-   // Viviana Velasco
-   async findOne(id: number) {
+  // Viviana Velasco
+  async findOne(id: number) {
     return await this.denunciasRepository.findOneBy({ id });
   }
 
@@ -99,5 +102,4 @@ export class DenunciasService {
     return q.getMany();
   }
   // Fin
-
 }
