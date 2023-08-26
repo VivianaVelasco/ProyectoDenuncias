@@ -13,7 +13,7 @@ export class Usuarios {
   @Column()
   email: string;
 
-  @Column()
+  @Column({select: false})
   password: string;
 
   @Column({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
