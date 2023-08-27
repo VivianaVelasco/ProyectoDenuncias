@@ -12,6 +12,6 @@ class DenunciaScreen extends StatefulWidget {
 class _DenunciaScreenState extends State<DenunciaScreen> {
   @override
   Widget build(BuildContext context) {
-    return Text("Denuncias con id ${widget.id}");
+    return Scaffold(body: Text("Denuncias con id ${widget.id}"));
   }
 }

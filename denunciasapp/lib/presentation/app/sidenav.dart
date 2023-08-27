@@ -37,7 +37,7 @@ class SideNavDrawer extends StatelessWidget {
                           icon: icon,
                           title: title,
                           subtitle: subTitle,
-                          onTap: () => context.go(link),
+                          onTap: () => context.push(link),
                           link: link);
                     },
                   ),

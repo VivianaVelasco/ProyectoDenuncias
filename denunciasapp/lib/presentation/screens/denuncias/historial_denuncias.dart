@@ -5,6 +5,8 @@ class HistorialDenunciasScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text("HistorialDenunciasScreen");
+    return Scaffold(
+        appBar: AppBar(title: Text("Historial de Denuncias")),
+        body: Text("Listar Denuncias"));
   }
 }

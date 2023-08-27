@@ -5,6 +5,8 @@ class DenunciasScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text("Listar Denuncias");
+    return Scaffold(
+        appBar: AppBar(title: Text("Denuncias")),
+        body: Text("Listar Denuncias"));
   }
 }
