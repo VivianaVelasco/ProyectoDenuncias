@@ -3,10 +3,15 @@ import 'package:flutter/material.dart';
 class SideNavItem extends StatelessWidget {
   final IconData icon;
   final String title;
+  final String? subtitle;
   final VoidCallback? onTap;
 
   const SideNavItem(
-      {super.key, required this.icon, this.onTap, required this.title});
+      {super.key,
+      required this.icon,
+      this.onTap,
+      required this.title,
+      this.subtitle});
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +27,9 @@ class SideNavItem extends StatelessWidget {
         style: const TextStyle(
             color: Colors.white, fontSize: 20, fontWeight: FontWeight.w900),
       ),
+      subtitle: subtitle != null
+          ? Text(subtitle ?? "", style: const TextStyle(color: Colors.white))
+          : null,
       onTap: onTap,
     );
   }
