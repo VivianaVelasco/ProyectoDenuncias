@@ -3,14 +3,19 @@ import { UsersService } from '../services/users.service';
 import { UsuariosDto } from '../users.dto';
 import { ApiTags } from '@nestjs/swagger';
 
-@ApiTags("usuarios")
-@Controller('usuarios')
+@ApiTags('usuarios')
+@Controller('api/usuarios')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post("/register")
+  @Post('/register')
   // @HttpCode(200)
   async registerUser(@Body() user: UsuariosDto) {
-    return await this.usersService.create(user)
+    return await this.usersService.create(user);
+  }
+
+  @Post('/login')
+  async loginUser(@Body() user: UsuariosDto) {
+    return true;
   }
 }

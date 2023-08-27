@@ -5,6 +5,16 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text("Login");
+    return const Scaffold(
+        body: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          "Registrarse",
+          style: TextStyle(fontSize: 30),
+        ),
+      ],
+    ));
   }
 }

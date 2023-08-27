@@ -4,7 +4,7 @@ import { ParroquiasDto } from '../parroquias.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags("parroquias")
-@Controller('parroquias')
+@Controller('api/parroquias')
 export class ParroquiasController {
 
     constructor(private parroquiasService: ParroquiasService){}

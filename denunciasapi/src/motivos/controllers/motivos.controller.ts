@@ -4,7 +4,7 @@ import { MotivosDto } from '../motivos.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags("motivos")
-@Controller('motivos')
+@Controller('api/motivos')
 export class MotivosController {
 
     constructor(private motivosService: MotivosService){}
