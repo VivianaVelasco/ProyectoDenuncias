@@ -1,6 +1,7 @@
 import 'package:denunciasapp/config/menu/menu_item.dart';
 import 'package:denunciasapp/presentation/app/sidenav_item.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class SideNavDrawer extends StatelessWidget {
   const SideNavDrawer({super.key});
@@ -31,14 +32,21 @@ class SideNavDrawer extends StatelessWidget {
                       final icon = appMenusItems[index].iconData;
                       final title = appMenusItems[index].title;
                       final subTitle = appMenusItems[index].subTitle;
+                      final link = appMenusItems[index].link;
                       return SideNavItem(
-                          icon: icon, title: title, subtitle: subTitle);
+                          icon: icon,
+                          title: title,
+                          subtitle: subTitle,
+                          onTap: () => context.go(link),
+                          link: link);
                     },
                   ),
                 ),
-                const SideNavItem(
+                SideNavItem(
                   icon: Icons.logout,
                   title: "Cerrar Sessión",
+                  onTap: () => context.go("/login"),
+                  link: "/login",
                 )
               ],
             ),

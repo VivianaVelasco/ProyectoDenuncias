@@ -22,16 +22,16 @@ const appMenusItems = <MenuItem>[
   MenuItem(
       title: "Denunciar",
       subTitle: "Realizar una denuncia",
-      link: "/",
+      link: "/crear-denuncia",
       iconData: Icons.sos_outlined),
   MenuItem(
       title: "Ver Historial",
       subTitle: "Ver todas las denuncias que has publicado",
-      link: "/",
+      link: "/midenuncias",
       iconData: Icons.history),
   MenuItem(
-      title: "Inicio",
+      title: "Denuncias",
       subTitle: "Ver denuncias de otros usuarios",
-      link: "/",
+      link: "/denuncias",
       iconData: Icons.list_alt)
 ];

@@ -1,5 +1,5 @@
+import 'package:denunciasapp/config/router/app_router.dart';
 import 'package:denunciasapp/config/theme/app_theme.dart';
-import 'package:denunciasapp/presentation/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,11 +11,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: appRouter,
       debugShowCheckedModeBanner: false,
       title: 'Denuncias Ec App',
       theme: AppTheme(selectedColor: 2).theme(),
-      home: const HomeScreen(),
     );
   }
 }
