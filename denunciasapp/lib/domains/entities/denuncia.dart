@@ -21,26 +21,4 @@ class Denuncia {
       required this.parroquia,
       required this.motivo,
       required this.urlPhoto});
-
-  factory Denuncia.fromJson(Map<String, dynamic> json) => Denuncia(
-        id: json["id"],
-        title: json["title"],
-        description: json["description"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        urlPhoto: json["urlPhoto"],
-        motivo: Motivo.fromJson(json["motivo"]),
-        usuario: Usuario.fromJson(json["usuario"]),
-        parroquia: Parroquia.fromJson(json["parroquia"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "title": title,
-        "description": description,
-        "createdAt": createdAt?.toIso8601String(),
-        "urlPhoto": urlPhoto,
-        "motivo": motivo.toJson(),
-        "usuario": usuario.toJson(),
-        "parroquia": parroquia.toJson(),
-      };
 }
