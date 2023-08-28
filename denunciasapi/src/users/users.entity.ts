@@ -1,4 +1,10 @@
-import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Denuncias } from '../denuncias/denuncias.entity';
 import { Parroquias } from '../parroquias/parroquias.entity';
 
@@ -13,25 +19,30 @@ export class Usuarios {
   @Column()
   email: string;
 
-  @Column({select: false})
+  @Column({ select: false })
   password: string;
 
-  @Column({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+    select: false,
+  })
   createdAt: Date;
 
-  @Column()
+  @Column({ select: false })
   phoneNumber: string;
 
-  @Column({length: '10'})
+  @Column({ length: '10', select: false })
   cedula: string;
 
-  @Column({type: 'date'})
+  @Column({ type: 'date', select: false })
   birthDate: Date;
 
-  @OneToMany(() => Denuncias, (denuncias) => denuncias.usuario, { cascade: true })
+  @OneToMany(() => Denuncias, (denuncias) => denuncias.usuario, {
+    cascade: true,
+  })
   denuncias: Denuncias[];
 
   @ManyToMany(() => Parroquias, (parroquia) => parroquia.denuncias)
   parroquia: Parroquias;
-
 }
