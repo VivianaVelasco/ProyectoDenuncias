@@ -1,7 +1,5 @@
 import 'package:denunciasapp/domains/entities/motivo.dart';
 import 'package:denunciasapp/domains/entities/parroquia.dart';
-import 'package:denunciasapp/infrastructure/models/motivo_model.dart';
-import 'package:denunciasapp/infrastructure/models/parroquia_model.dart';
 import 'package:denunciasapp/infrastructure/services/motivo_service.dart';
 import 'package:denunciasapp/infrastructure/services/parroquia_service.dart';
 import 'package:flutter/material.dart';

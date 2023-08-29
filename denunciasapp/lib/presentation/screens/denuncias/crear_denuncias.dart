@@ -22,6 +22,15 @@ class _CrearDenunciasScreenState extends State<CrearDenunciasScreen> {
   int idMotivo = 1;
   String date = "";
 
+  final List<String> parroquias = [
+    "Cuidad 1",
+    "Cuidad 2",
+    "Cuidad 3",
+    "Cuidad 4",
+    "Cuidad 5",
+    "Cuidad 6"
+  ];
+
   @override
   Widget build(BuildContext context) {
     // final discoverProvider = context.watch<DenunciasProvider>();
@@ -63,31 +72,44 @@ class _CrearDenunciasScreenState extends State<CrearDenunciasScreen> {
                 //   ],
                 // ),
                 // const SizedBox(height: 10),
-                // Row(
-                //   children: [
-                //     const Text("Parroquia del lugar denunciado"),
-                //     const SizedBox(height: 5),
-                //     DropdownMenu(
-                //       initialSelection: discoverProvider.parroquias.first.name,
-                //       onSelected: (value) =>
-                //           idMotivo = int.parse(value ?? "-1"),
-                //       dropdownMenuEntries: discoverProvider.parroquias
-                //           .map<DropdownMenuEntry<String>>(
-                //               (Parroquia parroquia) {
-                //         return DropdownMenuEntry<String>(
-                //             value: parroquia.id.toString(),
-                //             label: parroquia.name);
-                //       }).toList(),
-                //     ),
-                //   ],
-                // ),
+                DropdownButtonFormField(
+                  items: parroquias
+                      .map<DropdownMenuItem<String>>((String parroquia) {
+                    return DropdownMenuItem<String>(
+                        value: parroquia, child: Text(parroquia));
+                  }).toList(),
+                  onChanged: (value) => description = value ?? "-1",
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Selecciona una parroquia"),
+                ),
+                const SizedBox(height: 10),
                 CustomTextFormField(
                   label: "Fecha",
                   hint: "Ex. 20/03/2023",
                   onChanged: (value) => date = value,
                 ),
-                ElevatedButton(
-                    onPressed: (() {}), child: Text("Enviar Denuncia"))
+                // DatePickerDialog(
+                //     currentDate: DateTime.now(),
+                //     initialDate: DateTime.now(),
+                //     firstDate: DateTime(2015, 8),
+                //     lastDate: DateTime(2030)),
+                const SizedBox(height: 10),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                      onPressed: (() {}),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                      ),
+                      child: const Text(
+                        "Enviar Denuncia",
+                        style: TextStyle(
+                            fontFamily: "Roboto",
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white),
+                      )),
+                )
               ],
             ),
           ),

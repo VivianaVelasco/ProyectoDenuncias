@@ -7,8 +7,10 @@ class CustomTextFormField extends StatelessWidget {
   final bool obscureText;
   final Function(String)? onChanged;
   final String? Function(String?)? validator;
+  final IconData? iconPrefix;
 
   const CustomTextFormField({
+    this.iconPrefix,
     super.key,
     this.label,
     this.hint,
@@ -31,6 +33,7 @@ class CustomTextFormField extends StatelessWidget {
       validator: validator,
       obscureText: obscureText,
       decoration: InputDecoration(
+        prefixIcon: iconPrefix != null ? Icon(iconPrefix) : null,
         enabledBorder: border,
         focusedBorder:
             border.copyWith(borderSide: BorderSide(color: colors.primary)),
