@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:denunciasapp/domains/entities/motivo.dart';
 import 'package:denunciasapp/domains/entities/parroquia.dart';
 import 'package:denunciasapp/presentation/provider/denuncias_provider.dart';
@@ -15,12 +17,12 @@ class CrearDenunciasScreen extends StatefulWidget {
 class _CrearDenunciasScreenState extends State<CrearDenunciasScreen> {
   final formKey = GlobalKey<FormState>();
 
-  String name = "";
+  String title = "";
   String description = "";
   int idUsuario = 2;
   int idParroquia = 1;
   int idMotivo = 1;
-  String date = "";
+  DateTime date = DateTime.now();
 
   final List<String> parroquias = [
     "Cuidad 1",
@@ -30,6 +32,8 @@ class _CrearDenunciasScreenState extends State<CrearDenunciasScreen> {
     "Cuidad 5",
     "Cuidad 6"
   ];
+
+  TextEditingController dateCtl = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -45,14 +49,29 @@ class _CrearDenunciasScreenState extends State<CrearDenunciasScreen> {
               children: [
                 const SizedBox(height: 10),
                 CustomTextFormField(
-                    label: "Nombre",
-                    hint: "Ex. Robo en Ceibos",
-                    onChanged: (value) => name = value),
+                  label: "Nombre",
+                  hint: "Ex. Robo en Ceibos",
+                  onChanged: (value) => title = value,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Debes ingresar el titulo de la denuncia';
+                    }
+                    return null;
+                  },
+                  iconPrefix: Icons.title,
+                ),
                 const SizedBox(height: 10),
                 CustomTextFormField(
                   label: "Detalles",
                   hint: "Ex. Ocurrio en ... y despues ...",
                   onChanged: (value) => description = value,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Debes ingresar los detalles de la denuncia.';
+                    }
+                    return null;
+                  },
+                  iconPrefix: Icons.description,
                 ),
                 const SizedBox(height: 10),
                 // Row(
@@ -78,17 +97,33 @@ class _CrearDenunciasScreenState extends State<CrearDenunciasScreen> {
                     return DropdownMenuItem<String>(
                         value: parroquia, child: Text(parroquia));
                   }).toList(),
-                  onChanged: (value) => description = value ?? "-1",
+                  onChanged: (value) =>
+                      idParroquia = parroquias.indexOf(value ?? parroquias[0]),
                   decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      hintText: "Selecciona una parroquia"),
+                      labelText: "Selecciona una parroquia"),
                 ),
                 const SizedBox(height: 10),
                 CustomTextFormField(
+                  controller: dateCtl,
                   label: "Fecha",
-                  hint: "Ex. 20/03/2023",
-                  onChanged: (value) => date = value,
+                  hint: "Selecciona la fecha que ocurrio el suceso",
+                  onChanged: (value) => date = DateTime.now(),
+                  iconPrefix: Icons.date_range_outlined,
+                  onTap: () async {
+                    FocusScope.of(context).requestFocus(FocusNode());
+                    DateTime date = DateTime(1900);
+                    date = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime(2100)) ??
+                        DateTime.now();
+
+                    dateCtl.text = date.toIso8601String();
+                  },
                 ),
+
                 // DatePickerDialog(
                 //     currentDate: DateTime.now(),
                 //     initialDate: DateTime.now(),
@@ -98,7 +133,28 @@ class _CrearDenunciasScreenState extends State<CrearDenunciasScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                      onPressed: (() {}),
+                      onPressed: () {
+                        final formValid =
+                            formKey.currentState?.validate() ?? false;
+                        final dataJSON = {
+                          "title": title,
+                          "description": description,
+                          "idMotivo": 3,
+                          "dateIndicent": dateCtl.text,
+                          "urlPhoto": "foto1.png",
+                          "idUsuario": 3,
+                          "idParroquia": idParroquia
+                        };
+                        if (formValid) {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: const Text("Envio de Formulario"),
+                              content: Text(json.encode(dataJSON).toString()),
+                            ),
+                          );
+                        }
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue,
                       ),

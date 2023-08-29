@@ -8,8 +8,12 @@ class CustomTextFormField extends StatelessWidget {
   final Function(String)? onChanged;
   final String? Function(String?)? validator;
   final IconData? iconPrefix;
+  final Function()? onTap;
+  final TextEditingController? controller;
 
   const CustomTextFormField({
+    this.controller,
+    this.onTap,
     this.iconPrefix,
     super.key,
     this.label,
@@ -29,7 +33,9 @@ class CustomTextFormField extends StatelessWidget {
         borderRadius: BorderRadius.circular(5));
 
     return TextFormField(
+      controller: controller,
       onChanged: onChanged,
+      onTap: onTap,
       validator: validator,
       obscureText: obscureText,
       decoration: InputDecoration(
