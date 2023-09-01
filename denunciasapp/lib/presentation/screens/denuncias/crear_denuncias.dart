@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:denunciasapp/domains/entities/motivo.dart';
 import 'package:denunciasapp/domains/entities/parroquia.dart';
+import 'package:denunciasapp/infrastructure/services/camera_galery_service_impl.dart';
 import 'package:denunciasapp/presentation/provider/denuncias_provider.dart';
 import 'package:denunciasapp/presentation/widgets/inputs/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +25,7 @@ class _CrearDenunciasScreenState extends State<CrearDenunciasScreen> {
   int idParroquia = 1;
   int idMotivo = 1;
   DateTime date = DateTime.now();
+  String photoURL = "";
 
   final List<String> parroquias = [
     "Cuidad 1",
@@ -31,6 +34,15 @@ class _CrearDenunciasScreenState extends State<CrearDenunciasScreen> {
     "Cuidad 4",
     "Cuidad 5",
     "Cuidad 6"
+  ];
+
+  final List<String> motivos = [
+    "Robo",
+    "Extorsion",
+    "Maltrato Animal",
+    "Acoso",
+    "Asesinato",
+    "Otros"
   ];
 
   TextEditingController dateCtl = TextEditingController();
@@ -43,13 +55,36 @@ class _CrearDenunciasScreenState extends State<CrearDenunciasScreen> {
         body: Form(
           key: formKey,
           child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            padding: const EdgeInsets.all(15),
+            child: ListView(
               children: [
-                const SizedBox(height: 10),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    SizedBox(
+                      height: 250,
+                      width: 250,
+                      child: _ImageGallery(photoUrl: photoURL),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                            onPressed: () async {
+                              final photoPath =
+                                  await CameraGaleryServiceImpl().selectPhoto();
+                              if (photoPath == null) return;
+                              photoURL = photoPath.trim();
+                            },
+                            icon: const Icon(Icons.download)),
+                        const Text("Importar una imagen")
+                      ],
+                    )
+                  ],
+                ),
+                const SizedBox(height: 15),
                 CustomTextFormField(
-                  label: "Nombre",
+                  label: "Nombre de la denuncia",
                   hint: "Ex. Robo en Ceibos",
                   onChanged: (value) => title = value,
                   validator: (value) {
@@ -60,7 +95,7 @@ class _CrearDenunciasScreenState extends State<CrearDenunciasScreen> {
                   },
                   iconPrefix: Icons.title,
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 15),
                 CustomTextFormField(
                   label: "Detalles",
                   hint: "Ex. Ocurrio en ... y despues ...",
@@ -73,24 +108,19 @@ class _CrearDenunciasScreenState extends State<CrearDenunciasScreen> {
                   },
                   iconPrefix: Icons.description,
                 ),
-                const SizedBox(height: 10),
-                // Row(
-                //   children: [
-                //     const Text("Motivo de la denuncia"),
-                //     const SizedBox(height: 5),
-                //     DropdownMenu(
-                //       initialSelection: discoverProvider.motivos.first.name,
-                //       onSelected: (value) =>
-                //           idMotivo = int.parse(value ?? "-1"),
-                //       dropdownMenuEntries: discoverProvider.motivos
-                //           .map<DropdownMenuEntry<String>>((Motivo motivo) {
-                //         return DropdownMenuEntry<String>(
-                //             value: motivo.id.toString(), label: motivo.name);
-                //       }).toList(),
-                //     ),
-                //   ],
-                // ),
-                // const SizedBox(height: 10),
+                const SizedBox(height: 15),
+                DropdownButtonFormField(
+                  items: motivos.map<DropdownMenuItem<String>>((String motivo) {
+                    return DropdownMenuItem<String>(
+                        value: motivo, child: Text(motivo));
+                  }).toList(),
+                  onChanged: (value) =>
+                      idMotivo = motivos.indexOf(value ?? motivos[0]),
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: "Selecciona el motivo"),
+                ),
+                const SizedBox(height: 15),
                 DropdownButtonFormField(
                   items: parroquias
                       .map<DropdownMenuItem<String>>((String parroquia) {
@@ -103,7 +133,7 @@ class _CrearDenunciasScreenState extends State<CrearDenunciasScreen> {
                       border: OutlineInputBorder(),
                       labelText: "Selecciona una parroquia"),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 15),
                 CustomTextFormField(
                   controller: dateCtl,
                   label: "Fecha",
@@ -123,13 +153,7 @@ class _CrearDenunciasScreenState extends State<CrearDenunciasScreen> {
                     dateCtl.text = date.toIso8601String();
                   },
                 ),
-
-                // DatePickerDialog(
-                //     currentDate: DateTime.now(),
-                //     initialDate: DateTime.now(),
-                //     firstDate: DateTime(2015, 8),
-                //     lastDate: DateTime(2030)),
-                const SizedBox(height: 10),
+                const SizedBox(height: 15),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -143,7 +167,8 @@ class _CrearDenunciasScreenState extends State<CrearDenunciasScreen> {
                           "dateIndicent": dateCtl.text,
                           "urlPhoto": "foto1.png",
                           "idUsuario": 3,
-                          "idParroquia": idParroquia
+                          "idParroquia": idParroquia,
+                          "imgUrl": photoURL
                         };
                         if (formValid) {
                           showDialog(
@@ -170,5 +195,40 @@ class _CrearDenunciasScreenState extends State<CrearDenunciasScreen> {
             ),
           ),
         ));
+  }
+}
+
+class _ImageGallery extends StatelessWidget {
+  final String photoUrl;
+
+  const _ImageGallery({super.key, required this.photoUrl});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      child: photoUrl.isEmpty
+          ? ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              child: Image.asset(
+                "assets/images/no-image.jpg",
+                fit: BoxFit.cover,
+              ),
+            )
+          : ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              child: FadeInImage(
+                fit: BoxFit.fill,
+                image: checkTypePhoto(),
+                placeholder: const AssetImage("assets/images/no-image.jpg"),
+              ),
+            ),
+    );
+  }
+
+  dynamic checkTypePhoto() {
+    return photoUrl.startsWith("http")
+        ? NetworkImage(photoUrl)
+        : FileImage(File(photoUrl));
   }
 }
