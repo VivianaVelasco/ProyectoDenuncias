@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 
 class HistorialDenunciasScreen extends StatelessWidget {
-  const HistorialDenunciasScreen({super.key});
+  const HistorialDenunciasScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> historial = [
-      {'titulo': 'Restaurante insalubre', 'fecha': '10-10-2022'},
-      {'titulo': 'Robo a viviendas', 'fecha': '10-08-2023'},
-      {'titulo': 'Asalto a mano armada', 'fecha': '25-08-2023'},
+      {'titulo': 'Maltrato Animal', 'motivo': 'Fauna Urbana', 'parroquia': 'Olemdo-San Alejo', 'fecha': '10-10-2022'},
+      {'titulo': 'Robo a viviendas', 'motivo': 'Seguridad', 'parroquia': 'Sucre', 'fecha': '10-08-2023'},
+      {'titulo': 'Asalto a mano armada', 'motivo': 'Seguridad', 'parroquia': 'Roca', 'fecha': '25-08-2023'},
+      {'titulo': 'Asalto a mano armada', 'motivo': 'Seguridad', 'parroquia': 'Roca', 'fecha': '10-08-2023'},
+      {'titulo': 'Asalto a mano armada', 'motivo': 'Seguridad', 'parroquia': 'Roca', 'fecha': '25-08-2023'},
+      {'titulo': 'Pelea entre vecinos', 'motivo': 'Espectáculos Públicos', 'parroquia': 'Carbo-Concepción', 'fecha': '25-08-2023'},
+      {'titulo': 'Construcción en área privada', 'motivo': 'Construcción', 'parroquia': 'Bolívar-Sagrario', 'fecha': '12-08-2023'},
     ];
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -37,29 +42,38 @@ class HistorialDenunciasScreen extends StatelessWidget {
               style: TextStyle(color: Colors.lightBlue, fontSize: 30),
             ),
             const SizedBox(height: 10),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: DataTable(
-                columnSpacing: (MediaQuery.of(context).size.width / 10) * 0.1,
-                columns: const [
-                  DataColumn(label: Text('Titulo')),
-                  DataColumn(label: Text('Fecha')),
-                  DataColumn(label: Text('Editar')),
-                  DataColumn(label: Text('Eliminar')),
-                ],
-                rows: historial.map((data) {
-                  return DataRow(
-                    cells: [
-                      DataCell(Text(data['titulo'])),
-                      DataCell(Text(data['fecha'])),
-                      DataCell(IconButton(
-                          icon: const Icon(Icons.edit_document),
-                          onPressed: () {})),
-                      DataCell(IconButton(
-                          icon: const Icon(Icons.delete), onPressed: () {}))
-                    ],
+            Expanded(
+              child: ListView.builder(
+                itemCount: historial.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final item = historial[index];
+                  return Card(
+                    child: ListTile(
+                      title: Text(item['titulo']),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Motivo: ${item['motivo']}'),
+                          Text('Parroquia: ${item['parroquia']}'),
+                          Text('Fecha: ${item['fecha']}'),
+                        ],
+                      ),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          TextButton(
+                            onPressed: () {},
+                            child: const Text('Editar'),
+                          ),
+                          TextButton(
+                            onPressed: () {},
+                            child: const Text('Eliminar'),
+                          ),
+                        ],
+                      ),
+                    ),
                   );
-                }).toList(),
+                },
               ),
             ),
           ],
@@ -68,3 +82,4 @@ class HistorialDenunciasScreen extends StatelessWidget {
     );
   }
 }
+ 

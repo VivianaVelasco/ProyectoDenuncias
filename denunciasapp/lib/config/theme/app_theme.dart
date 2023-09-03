@@ -21,6 +21,26 @@ class AppTheme {
     return ThemeData(
         useMaterial3: true,
         colorSchemeSeed: _colorThemes[selectedColor],
-        brightness: Brightness.light);
+        brightness: Brightness.light,
+       
+       inputDecorationTheme: const InputDecorationTheme(
+        floatingLabelStyle: TextStyle(
+          color: _customColor
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: _customColor)
+        ),
+        
+
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: _customColor)
+        ),
+
+       )
+        
+        
+        );
+
+
   }
 }
