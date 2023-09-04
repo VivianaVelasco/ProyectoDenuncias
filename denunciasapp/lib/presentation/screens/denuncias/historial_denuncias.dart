@@ -96,8 +96,8 @@ class AdvertenciaEliminar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Eliminar denuncia'),
-      content: const Text('¿Deseas eliminar esta denuncia?'),
+      title: const Text('Eliminar denuncia', textAlign: TextAlign.center,),
+      content: const Text('¿Deseas eliminar esta denuncia?', textAlign: TextAlign.center,),
       actions: <Widget>[
         TextButton(
           onPressed: () {
