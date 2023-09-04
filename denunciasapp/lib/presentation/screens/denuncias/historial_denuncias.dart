@@ -62,11 +62,18 @@ class HistorialDenunciasScreen extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () { },
                             child: const Text('Editar'),
                           ),
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return  const AdvertenciaEliminar();
+                                },
+                              );
+                            },
                             child: const Text('Eliminar'),
                           ),
                         ],
@@ -82,4 +89,29 @@ class HistorialDenunciasScreen extends StatelessWidget {
     );
   }
 }
- 
+
+class AdvertenciaEliminar extends StatelessWidget {
+  const AdvertenciaEliminar({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Eliminar denuncia'),
+      content: const Text('¿Deseas eliminar esta denuncia?'),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            Navigator.pop(context, 'Cancelar');
+          },
+          child: const Text('Cancelar'),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.pop(context, 'Eliminar');
+          },
+          child: const Text('Eliminar'),
+        ),
+      ],
+    );
+  }
+}
