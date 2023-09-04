@@ -7,7 +7,7 @@ import 'package:denunciasapp/infrastructure/models/parroquia_model.dart';
 import 'package:denunciasapp/infrastructure/models/usuario_model.dart';
 
 class DenunciaModel {
-  final int? id;
+  final int id;
   final String title;
   final String description;
   final DateTime? createdAt;
@@ -17,7 +17,7 @@ class DenunciaModel {
   final String urlPhoto;
 
   DenunciaModel(
-      {this.id,
+      {required this.id,
       required this.title,
       required this.description,
       required this.usuario,
@@ -51,8 +51,8 @@ class DenunciaModel {
   Denuncia toDenunciaEntity() => Denuncia(
       title: title,
       description: description,
-      usuario: Usuario(email: usuario.email, names: usuario.names),
-      parroquia: Parroquia(name: parroquia.name),
-      motivo: Motivo(name: motivo.name),
+      usuario: Usuario(email: usuario.email, names: usuario.names, id: id),
+      parroquia: Parroquia(name: parroquia.name, id: id),
+      motivo: Motivo(name: motivo.name, id: id),
       urlPhoto: urlPhoto);
 }

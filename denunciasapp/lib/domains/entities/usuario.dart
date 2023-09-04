@@ -1,5 +1,5 @@
 class Usuario {
-  final int? id;
+  final int id;
   final String names;
   final String email;
   final String? phoneNumber;
@@ -12,7 +12,7 @@ class Usuario {
     required this.email,
     this.phoneNumber,
     this.cedula,
-    this.id,
+    required this.id,
     this.birthDay,
     this.createdAt,
   });

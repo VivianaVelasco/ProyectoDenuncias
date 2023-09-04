@@ -1,6 +1,6 @@
 class Parroquia {
-  final int? id;
+  final int id;
   final String name;
 
-  Parroquia({this.id, required this.name});
+  Parroquia({required this.id, required this.name});
 }

@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:denunciasapp/domains/entities/motivo.dart';
 import 'package:denunciasapp/domains/entities/parroquia.dart';
 import 'package:denunciasapp/infrastructure/services/camera_galery_service_impl.dart';
@@ -27,29 +26,13 @@ class _CrearDenunciasScreenState extends State<CrearDenunciasScreen> {
   DateTime date = DateTime.now();
   String photoURL = "";
 
-  final List<String> parroquias = [
-    "Cuidad 1",
-    "Cuidad 2",
-    "Cuidad 3",
-    "Cuidad 4",
-    "Cuidad 5",
-    "Cuidad 6"
-  ];
-
-  final List<String> motivos = [
-    "Robo",
-    "Extorsion",
-    "Maltrato Animal",
-    "Acoso",
-    "Asesinato",
-    "Otros"
-  ];
-
   TextEditingController dateCtl = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    // final discoverProvider = context.watch<DenunciasProvider>();
+    final discoverProvider = context.watch<DenunciasProvider>();
+    final motivos = discoverProvider.motivos;
+    final parroquias = discoverProvider.parroquias;
     return Scaffold(
         appBar: AppBar(title: const Text("Crear Denuncia")),
         body: Form(
@@ -110,12 +93,14 @@ class _CrearDenunciasScreenState extends State<CrearDenunciasScreen> {
                 ),
                 const SizedBox(height: 15),
                 DropdownButtonFormField(
-                  items: motivos.map<DropdownMenuItem<String>>((String motivo) {
+                  items: motivos.map<DropdownMenuItem<String>>((Motivo motivo) {
                     return DropdownMenuItem<String>(
-                        value: motivo, child: Text(motivo));
+                        value: motivo.name, child: Text(motivo.name));
                   }).toList(),
-                  onChanged: (value) =>
-                      idMotivo = motivos.indexOf(value ?? motivos[0]),
+                  onChanged: (value) => idMotivo = motivos
+                      .where((Motivo motivo) => motivo.name == value)
+                      .elementAt(0)
+                      .id,
                   decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: "Selecciona el motivo"),
@@ -123,12 +108,14 @@ class _CrearDenunciasScreenState extends State<CrearDenunciasScreen> {
                 const SizedBox(height: 15),
                 DropdownButtonFormField(
                   items: parroquias
-                      .map<DropdownMenuItem<String>>((String parroquia) {
+                      .map<DropdownMenuItem<String>>((Parroquia parroquia) {
                     return DropdownMenuItem<String>(
-                        value: parroquia, child: Text(parroquia));
+                        value: parroquia.name, child: Text(parroquia.name));
                   }).toList(),
-                  onChanged: (value) =>
-                      idParroquia = parroquias.indexOf(value ?? parroquias[0]),
+                  onChanged: (value) => idParroquia = parroquias
+                      .where((Parroquia parroquia) => parroquia.name == value)
+                      .elementAt(0)
+                      .id,
                   decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: "Selecciona una parroquia"),
@@ -201,7 +188,7 @@ class _CrearDenunciasScreenState extends State<CrearDenunciasScreen> {
 class _ImageGallery extends StatelessWidget {
   final String photoUrl;
 
-  const _ImageGallery({super.key, required this.photoUrl});
+  const _ImageGallery({required this.photoUrl});
 
   @override
   Widget build(BuildContext context) {

@@ -1,10 +1,10 @@
 import 'package:denunciasapp/domains/entities/motivo.dart';
 
 class MotivoModel {
-  final int? id;
+  final int id;
   final String name;
 
-  MotivoModel({this.id, required this.name});
+  MotivoModel({required this.id, required this.name});
   factory MotivoModel.fromJson(Map<String, dynamic> json) => MotivoModel(
         id: json["id"] ?? -1,
         name: json["name"],

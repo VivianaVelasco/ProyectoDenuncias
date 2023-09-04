@@ -1,6 +1,6 @@
 class Motivo {
-  final int? id;
+  final int id;
   final String name;
 
-  Motivo({this.id, required this.name});
+  Motivo({required this.id, required this.name});
 }
