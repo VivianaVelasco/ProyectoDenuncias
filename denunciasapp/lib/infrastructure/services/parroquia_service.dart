@@ -12,7 +12,6 @@ class ParroquiaService {
         .map((parroquia) =>
             ParroquiaModel.fromJson(parroquia).toParroquiaEntity())
         .toList();
-    print(result);
     return result;
   }
 }

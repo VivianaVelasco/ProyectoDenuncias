@@ -11,7 +11,6 @@ class MotivoService {
     final result = (response.data as List)
         .map((motivo) => MotivoModel.fromJson(motivo).toMotivoEntity())
         .toList();
-    print(result);
     return result;
   }
 }
