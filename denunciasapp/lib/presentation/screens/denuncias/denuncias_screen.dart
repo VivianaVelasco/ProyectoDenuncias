@@ -1,15 +1,14 @@
 //import 'package:denunciasapp/presentation/widgets/inputs/custom_text_form_field.dart';
 import 'package:denunciasapp/domains/entities/denuncia.dart';
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'dart:io';
+//import 'dart:convert';
+//import 'dart:io';
 import 'package:denunciasapp/domains/entities/motivo.dart';
 import 'package:denunciasapp/domains/entities/parroquia.dart';
-import 'package:denunciasapp/infrastructure/services/camera_galery_service_impl.dart';
+//import 'package:denunciasapp/infrastructure/services/camera_galery_service_impl.dart';
 import 'package:denunciasapp/presentation/provider/denuncias_provider.dart';
-import 'package:denunciasapp/presentation/widgets/inputs/custom_text_form_field.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+//import 'package:flutter/material.dart';
+//import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class DenunciasScreen extends StatefulWidget {

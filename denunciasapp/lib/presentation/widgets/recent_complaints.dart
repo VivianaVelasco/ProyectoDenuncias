@@ -1,4 +1,4 @@
-import 'package:denunciasapp/domains/entities/denuncia.dart';
+//import 'package:denunciasapp/domains/entities/denuncia.dart';
 import 'package:denunciasapp/presentation/provider/denuncias_provider.dart';
 import 'package:denunciasapp/presentation/widgets/complaint.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +52,11 @@ class _RecentComplaintsState extends State<RecentComplaints> {
                   itemBuilder: ((context, index) {
                     return Complaint(denuncia: denuncias[index]);
                   })),
-            ),
+
+
+
+                  ),
+            
           ],
         ),
       ),
