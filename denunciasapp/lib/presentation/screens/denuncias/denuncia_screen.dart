@@ -17,11 +17,13 @@ class DenunciaScreen extends StatefulWidget {
 class _DenunciaScreenState extends State<DenunciaScreen> {
   final DenunciasProvider denunciasProvider = DenunciasProvider();
   Denuncia denuncia = Denuncia(
+      id: -1,
       title: "",
       description: "",
       usuario: Usuario(id: 2, names: "", email: ""),
       parroquia: Parroquia(id: 3, name: ""),
       motivo: Motivo(id: 2, name: ""),
+      createdAt: "",
       urlPhoto: "");
 
   @override

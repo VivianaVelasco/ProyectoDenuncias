@@ -15,6 +15,8 @@ class DenunciasProvider extends ChangeNotifier {
   List<Denuncia> denuncias = [];
   List<Denuncia> denunciasUsuario = [];
 
+  final int usuarioId = 2;
+
   bool initialLoading = true;
   int statusCodeRequest = 0;
 
@@ -48,6 +50,7 @@ class DenunciasProvider extends ChangeNotifier {
     statusCodeRequest = statusCode;
     initialLoading = false;
     await getRecentsDenuncias();
+    await getDenunciaByUsuario(usuarioId);
     notifyListeners();
   }
 
@@ -57,6 +60,7 @@ class DenunciasProvider extends ChangeNotifier {
         await denunciasService.editDenunciaById(data, idDenuncia);
     statusCodeRequest = statusCode;
     initialLoading = false;
+    await getDenunciaByUsuario(usuarioId);
     await getRecentsDenuncias();
     notifyListeners();
   }
@@ -67,6 +71,9 @@ class DenunciasProvider extends ChangeNotifier {
         await denunciasService.deleteDenunciaById(idDenuncia);
     statusCodeRequest = statusCode;
     initialLoading = false;
+    print(denunciasUsuario);
+    await getDenunciaByUsuario(usuarioId);
+    print(denunciasUsuario);
     await getRecentsDenuncias();
     notifyListeners();
   }
@@ -92,7 +99,7 @@ class DenunciasProvider extends ChangeNotifier {
     initialLoading = true;
     final List<Denuncia> denunciasResult =
         await denunciasService.getByUsuario(idUsuario);
-    denunciasUsuario.addAll(denunciasResult);
+    denunciasUsuario = [...denunciasResult];
     initialLoading = false;
     notifyListeners();
   }

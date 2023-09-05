@@ -16,12 +16,12 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          lazy: false,
-          create: (_) => DenunciasProvider()
-            ..loadParroquias()
-            ..loadMotivos()
-            ..getRecentsDenuncias(),
-        )
+            lazy: false,
+            create: (_) => DenunciasProvider()
+              ..loadParroquias()
+              ..loadMotivos()
+              ..getDenunciaByUsuario(2)
+              ..getRecentsDenuncias())
       ],
       child: MaterialApp.router(
         routerConfig: appRouter,

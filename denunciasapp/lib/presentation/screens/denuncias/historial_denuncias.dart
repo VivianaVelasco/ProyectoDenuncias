@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-
 class HistorialDenunciasScreen extends StatefulWidget {
   const HistorialDenunciasScreen({super.key});
 
   @override
-  State<HistorialDenunciasScreen> createState() => _HistorialDenunciasScreenState();
+  State<HistorialDenunciasScreen> createState() =>
+      _HistorialDenunciasScreenState();
 }
 
 class _HistorialDenunciasScreenState extends State<HistorialDenunciasScreen> {
@@ -14,13 +14,48 @@ class _HistorialDenunciasScreenState extends State<HistorialDenunciasScreen> {
   @override
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> historial = [
-      {'titulo': 'Maltrato Animal', 'motivo': 'Fauna Urbana', 'parroquia': 'Olemdo-San Alejo', 'fecha': '10-10-2022'},
-      {'titulo': 'Robo a viviendas', 'motivo': 'Seguridad', 'parroquia': 'Sucre', 'fecha': '10-08-2023'},
-      {'titulo': 'Asalto a mano armada', 'motivo': 'Seguridad', 'parroquia': 'Roca', 'fecha': '25-08-2023'},
-      {'titulo': 'Asalto a mano armada', 'motivo': 'Seguridad', 'parroquia': 'Roca', 'fecha': '10-08-2023'},
-      {'titulo': 'Asalto a mano armada', 'motivo': 'Seguridad', 'parroquia': 'Roca', 'fecha': '25-08-2023'},
-      {'titulo': 'Pelea entre vecinos', 'motivo': 'Espectáculos Públicos', 'parroquia': 'Carbo-Concepción', 'fecha': '25-08-2023'},
-      {'titulo': 'Construcción en área privada', 'motivo': 'Construcción', 'parroquia': 'Bolívar-Sagrario', 'fecha': '12-08-2023'},
+      {
+        'titulo': 'Maltrato Animal',
+        'motivo': 'Fauna Urbana',
+        'parroquia': 'Olemdo-San Alejo',
+        'fecha': '10-10-2022'
+      },
+      {
+        'titulo': 'Robo a viviendas',
+        'motivo': 'Seguridad',
+        'parroquia': 'Sucre',
+        'fecha': '10-08-2023'
+      },
+      {
+        'titulo': 'Asalto a mano armada',
+        'motivo': 'Seguridad',
+        'parroquia': 'Roca',
+        'fecha': '25-08-2023'
+      },
+      {
+        'titulo': 'Asalto a mano armada',
+        'motivo': 'Seguridad',
+        'parroquia': 'Roca',
+        'fecha': '10-08-2023'
+      },
+      {
+        'titulo': 'Asalto a mano armada',
+        'motivo': 'Seguridad',
+        'parroquia': 'Roca',
+        'fecha': '25-08-2023'
+      },
+      {
+        'titulo': 'Pelea entre vecinos',
+        'motivo': 'Espectáculos Públicos',
+        'parroquia': 'Carbo-Concepción',
+        'fecha': '25-08-2023'
+      },
+      {
+        'titulo': 'Construcción en área privada',
+        'motivo': 'Construcción',
+        'parroquia': 'Bolívar-Sagrario',
+        'fecha': '12-08-2023'
+      },
     ];
 
     return Scaffold(
@@ -70,7 +105,7 @@ class _HistorialDenunciasScreenState extends State<HistorialDenunciasScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           TextButton(
-                            onPressed: () { },
+                            onPressed: () {},
                             child: const Text('Editar'),
                           ),
                           TextButton(
@@ -78,7 +113,7 @@ class _HistorialDenunciasScreenState extends State<HistorialDenunciasScreen> {
                               showDialog(
                                 context: context,
                                 builder: (context) {
-                                  return  const AdvertenciaEliminar();
+                                  return const AdvertenciaEliminar();
                                 },
                               );
                             },
@@ -104,8 +139,14 @@ class AdvertenciaEliminar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Eliminar denuncia', textAlign: TextAlign.center,),
-      content: const Text('¿Deseas eliminar esta denuncia?', textAlign: TextAlign.center,),
+      title: const Text(
+        'Eliminar denuncia',
+        textAlign: TextAlign.center,
+      ),
+      content: const Text(
+        '¿Deseas eliminar esta denuncia?',
+        textAlign: TextAlign.center,
+      ),
       actions: <Widget>[
         TextButton(
           onPressed: () {

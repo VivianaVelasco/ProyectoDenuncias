@@ -20,8 +20,8 @@ class DenunciasScreen extends StatefulWidget {
 
 class _DenunciasScreenState extends State<DenunciasScreen> {
   final formKey = GlobalKey<FormState>();
-  int idMotivoElegido = 1;
-  int idParroquiaElegida = 1;
+  int idMotivoElegido = 0;
+  int idParroquiaElegida = 0;
   List<Denuncia> denuncias = [];
 
   @override
@@ -94,19 +94,14 @@ class _DenunciasScreenState extends State<DenunciasScreen> {
                   width: double.infinity,
                   child: ElevatedButton(
                       onPressed: () {
-                        final formValid =
-                            formKey.currentState?.validate() ?? false;
-                        print(formValid);
-                        if (idMotivoElegido != 0 && idParroquiaElegida != 0) {
+                        if (idMotivoElegido != 0 || idParroquiaElegida != 0) {
                           denunciasProvider
                               .getDenunciaByFilters(
                                   idParroquiaElegida, idMotivoElegido)
                               .then(
                                   (List<Denuncia> denunciasResult) => setState(
                                         () {
-                                          print(denunciasResult);
                                           denuncias = [...denunciasResult];
-                                          print(denuncias);
                                         },
                                       ));
                         } else {

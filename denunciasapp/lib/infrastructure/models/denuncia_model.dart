@@ -10,7 +10,7 @@ class DenunciaModel {
   final int id;
   final String title;
   final String description;
-  final DateTime? createdAt;
+  final String createdAt;
   final ParroquiaModel parroquia;
   final MotivoModel motivo;
   final UsuarioModel usuario;
@@ -21,18 +21,17 @@ class DenunciaModel {
       required this.title,
       required this.description,
       required this.usuario,
-      this.createdAt,
+      required this.createdAt,
       required this.parroquia,
       required this.motivo,
       required this.urlPhoto});
 
   factory DenunciaModel.fromJson(Map<String, dynamic> json) {
-    final dateConvert = json["createdAt"].split(".")[0] + "Z";
     return DenunciaModel(
       id: json["id"],
       title: json["title"],
       description: json["description"],
-      createdAt: DateTime.parse(dateConvert),
+      createdAt: json["createdAt"],
       urlPhoto: json["urlPhoto"],
       motivo: MotivoModel.fromJson(json["motivo"]),
       usuario: UsuarioModel.fromJson(json["usuario"]),
@@ -44,7 +43,7 @@ class DenunciaModel {
         "id": id,
         "title": title,
         "description": description,
-        "createdAt": createdAt?.toIso8601String(),
+        "createdAt": createdAt,
         "urlPhoto": urlPhoto,
         "motivo": motivo.toJson(),
         "usuario": usuario.toJson(),
@@ -52,8 +51,10 @@ class DenunciaModel {
       };
 
   Denuncia toDenunciaEntity() => Denuncia(
+      id: id,
       title: title,
       description: description,
+      createdAt: createdAt,
       usuario: Usuario(email: usuario.email, names: usuario.names, id: id),
       parroquia: Parroquia(name: parroquia.name, id: id),
       motivo: Motivo(name: motivo.name, id: id),
