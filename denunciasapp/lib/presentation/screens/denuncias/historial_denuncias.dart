@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 
-class HistorialDenunciasScreen extends StatelessWidget {
-  const HistorialDenunciasScreen({Key? key}) : super(key: key);
+
+class HistorialDenunciasScreen extends StatefulWidget {
+  const HistorialDenunciasScreen({super.key});
+
+  @override
+  State<HistorialDenunciasScreen> createState() => _HistorialDenunciasScreenState();
+}
+
+class _HistorialDenunciasScreenState extends State<HistorialDenunciasScreen> {
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
