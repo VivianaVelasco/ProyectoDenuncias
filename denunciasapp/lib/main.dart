@@ -19,7 +19,8 @@ class MyApp extends StatelessWidget {
           lazy: false,
           create: (_) => DenunciasProvider()
             ..loadParroquias()
-            ..loadMotivos(),
+            ..loadMotivos()
+            ..getRecentsDenuncias(),
         )
       ],
       child: MaterialApp.router(

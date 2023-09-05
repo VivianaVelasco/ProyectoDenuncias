@@ -14,7 +14,6 @@ class DenunciasProvider extends ChangeNotifier {
   List<Motivo> motivos = [];
   List<Denuncia> denuncias = [];
   List<Denuncia> denunciasUsuario = [];
-  late Denuncia denuncia;
 
   bool initialLoading = true;
   int statusCodeRequest = 0;
@@ -37,10 +36,9 @@ class DenunciasProvider extends ChangeNotifier {
 
   Future<void> getRecentsDenuncias() async {
     initialLoading = true;
-    final List<Parroquia> newParroquias =
-        await parroquiasService.getAllParroquias();
-    parroquias.addAll(newParroquias);
+    final List<Denuncia> newDenuncias = await denunciasService.getRecents();
     initialLoading = false;
+    denuncias = [...newDenuncias];
     notifyListeners();
   }
 
@@ -49,6 +47,7 @@ class DenunciasProvider extends ChangeNotifier {
     final statusCode = await denunciasService.registerDenuncia(data);
     statusCodeRequest = statusCode;
     initialLoading = false;
+    await getRecentsDenuncias();
     notifyListeners();
   }
 
@@ -58,6 +57,7 @@ class DenunciasProvider extends ChangeNotifier {
         await denunciasService.editDenunciaById(data, idDenuncia);
     statusCodeRequest = statusCode;
     initialLoading = false;
+    await getRecentsDenuncias();
     notifyListeners();
   }
 
@@ -67,16 +67,15 @@ class DenunciasProvider extends ChangeNotifier {
         await denunciasService.deleteDenunciaById(idDenuncia);
     statusCodeRequest = statusCode;
     initialLoading = false;
+    await getRecentsDenuncias();
     notifyListeners();
   }
 
-  Future<void> getDenunciasById(int idDenuncia) async {
+  Future<Denuncia> getDenunciaById(int idDenuncia) async {
     initialLoading = true;
     final Denuncia denunciaResult = await denunciasService.getById(idDenuncia);
-    denuncia = denunciaResult;
     initialLoading = false;
-    notifyListeners();
-    notifyListeners();
+    return denunciaResult;
   }
 
   Future<void> getDenunciaByFilters(int idParroquia, int idDenuncia) async {

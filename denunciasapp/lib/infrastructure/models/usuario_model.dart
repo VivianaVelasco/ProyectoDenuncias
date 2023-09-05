@@ -25,8 +25,8 @@ class UsuarioModel {
         email: json["email"],
         phoneNumber: json["phoneNumber"] ?? "",
         cedula: json["cedula"] ?? "",
-        birthDay: json["birthDay"] ?? "",
-        createdAt: json["createdAt"] ?? "",
+        birthDay: json["birthDay"] ?? DateTime.now(),
+        createdAt: json["createdAt"] ?? DateTime.now(),
       );
 
   Map<String, dynamic> toJson() => {

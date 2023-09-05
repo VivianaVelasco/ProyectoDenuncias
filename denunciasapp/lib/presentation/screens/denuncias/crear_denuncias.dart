@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:denunciasapp/domains/entities/motivo.dart';
 import 'package:denunciasapp/domains/entities/parroquia.dart';
@@ -177,7 +176,7 @@ class _CrearDenunciasScreenState extends State<CrearDenunciasScreen> {
                                       "Tu denuncia ha sido guarda correctamente. Revisa tu historial de denuncias."),
                                   actions: [
                                     TextButton(
-                                      onPressed: () => context.go('/home'),
+                                      onPressed: () => context.go('/'),
                                       child: const Text('Aceptar'),
                                     ),
                                   ],

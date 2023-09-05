@@ -7,7 +7,7 @@ class DenunciaService {
   final Dio dio = Dio(BaseOptions(
       baseUrl: "http://localhost:8000/api", contentType: "application/json"));
 
-  Future<List<Denuncia>> getRecentsDenuncias() async {
+  Future<List<Denuncia>> getRecents() async {
     final response = await dio.get("/denuncias/recents");
     final denunciasResult = (response.data as List)
         .map((denuncia) => DenunciaModel.fromJson(denuncia).toDenunciaEntity())

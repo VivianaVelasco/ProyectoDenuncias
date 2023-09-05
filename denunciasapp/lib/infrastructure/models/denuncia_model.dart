@@ -26,16 +26,19 @@ class DenunciaModel {
       required this.motivo,
       required this.urlPhoto});
 
-  factory DenunciaModel.fromJson(Map<String, dynamic> json) => DenunciaModel(
-        id: json["id"],
-        title: json["title"],
-        description: json["description"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        urlPhoto: json["urlPhoto"],
-        motivo: MotivoModel.fromJson(json["motivo"]),
-        usuario: UsuarioModel.fromJson(json["usuario"]),
-        parroquia: ParroquiaModel.fromJson(json["parroquia"]),
-      );
+  factory DenunciaModel.fromJson(Map<String, dynamic> json) {
+    final dateConvert = json["createdAt"].split(".")[0] + "Z";
+    return DenunciaModel(
+      id: json["id"],
+      title: json["title"],
+      description: json["description"],
+      createdAt: DateTime.parse(dateConvert),
+      urlPhoto: json["urlPhoto"],
+      motivo: MotivoModel.fromJson(json["motivo"]),
+      usuario: UsuarioModel.fromJson(json["usuario"]),
+      parroquia: ParroquiaModel.fromJson(json["parroquia"]),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "id": id,
