@@ -1,19 +1,39 @@
 //import 'package:denunciasapp/presentation/widgets/inputs/custom_text_form_field.dart';
+import 'package:denunciasapp/domains/entities/denuncia.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'dart:io';
+import 'package:denunciasapp/domains/entities/motivo.dart';
+import 'package:denunciasapp/domains/entities/parroquia.dart';
+import 'package:denunciasapp/infrastructure/services/camera_galery_service_impl.dart';
+import 'package:denunciasapp/presentation/provider/denuncias_provider.dart';
+import 'package:denunciasapp/presentation/widgets/inputs/custom_text_form_field.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
-class DenunciasScreen extends StatelessWidget {
+class DenunciasScreen extends StatefulWidget {
   const DenunciasScreen({super.key});
 
   @override
+  State<DenunciasScreen> createState() => _DenunciasScreenState();
+}
+
+class _DenunciasScreenState extends State<DenunciasScreen> {
+  final formKey = GlobalKey<FormState>();
+  int idMotivoElegido = 1;
+  int idParroquiaElegida = 1;
+  
+
+  @override
   Widget build(BuildContext context) {
-    String motivoElegido = '';
-    String parroquiaElegida = '';
-    final myFormkey = GlobalKey<FormState>();
-    //final Map<String, String> formValues = {'motivo': '', 'parroquia': '',};
+    List<Denuncia> denuncias = [];
+    final DenunciasProvider denunciasProvider = DenunciasProvider();
+    final motivos = denunciasProvider.motivos;
+    final parroquias = denunciasProvider.parroquias;
+ 
 
 
-    final List<String> motivos = ['Seguridad', 'Fauna Urbana', 'Infracciones', 'Construcción', 'Espectáculos Públicos'] ;
-    final List<String> parroquias = ['Ayacucho','Bolívar-Sagrario', 'Carbo-Concepción', 'Febres Cordero', ' Garcia Moreno', 'Letamendi', '9 de octubre', 'Olemdo-San Alejo', 'Roca', 'Rocafuerte', 'Sucre', 'Tarquí', 'Urdaneta', 'Ximena', 'Chongón', 'Pascuales' ];
      return Scaffold(
       
         appBar: AppBar(
@@ -45,8 +65,15 @@ class DenunciasScreen extends StatelessWidget {
            
            
             DropdownButtonFormField(
-              items: parroquias.map((String parroquia){return DropdownMenuItem<String>(value: parroquia,child: Text(parroquia),);
-              }).toList(), onChanged: (nwvalue) => parroquiaElegida = nwvalue.toString(),
+              items: parroquias
+                      .map<DropdownMenuItem<String>>((Parroquia parroquia) {
+                    return DropdownMenuItem<String>(
+                        value: parroquia.name, child: Text(parroquia.name));
+                  }).toList(),
+              onChanged: (value) => idParroquiaElegida = parroquias
+                      .where((Parroquia parroquia) => parroquia.name == value)
+                      .elementAt(0)
+                      .id,
                decoration: const InputDecoration(
                 
                   border: OutlineInputBorder(),
@@ -56,8 +83,14 @@ class DenunciasScreen extends StatelessWidget {
             const SizedBox(height: 10),
             
             DropdownButtonFormField(
-              items: motivos.map((String motivo){return DropdownMenuItem<String>(value: motivo, child: Text(motivo));
-              }).toList(), onChanged: (nwvalue)  => motivoElegido = nwvalue.toString(),
+               items: motivos.map<DropdownMenuItem<String>>((Motivo motivo) {
+                    return DropdownMenuItem<String>(
+                        value: motivo.name, child: Text(motivo.name));
+                  }).toList(),
+              onChanged:(value) => idMotivoElegido = motivos
+                      .where((Motivo motivo) => motivo.name == value)
+                      .elementAt(0)
+                      .id,
                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: "Seleccione el motivo de la denuncia"),
@@ -67,17 +100,17 @@ class DenunciasScreen extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
               onPressed: () {
-                        final formValid = myFormkey.currentState?.validate() ?? false;
-                        if (formValid) {
-                          showDialog(
-                            context: context,
-                            builder: (context) => const AlertDialog(
-                              title: Text("Filtrar"),
-                              content: Text('Filtrando...'),
-                            ),
-                          );
-                        }
-                        
+                final formValid = formKey.currentState?.validate() ?? false;
+               if (formValid){
+                 denunciasProvider.getDenunciaByFilters(idParroquiaElegida, idMotivoElegido).then((List<Denuncia> denunciaRes) { setState(() {denuncias = [...denunciaRes]; });});
+                }else{
+                  showDialog(context: context, builder: (context) => AlertDialog( title: const Text("Error! No se ha filtrado."),
+                  actions: [
+                    TextButton(onPressed: () => context.go('/denuncias')
+                    , child: const Text('Regresar'))
+                  ],
+                  ));
+                }
                         },
               style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue,
