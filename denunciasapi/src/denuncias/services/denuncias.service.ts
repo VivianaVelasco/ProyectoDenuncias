@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Brackets, Repository, UnorderedBulkOperation } from 'typeorm';
 import { Denuncias } from '../denuncias.entity';
 import { DenunciasDto } from '../denuncias.dto';
 import { ParroquiasService } from '../../parroquias/services/parroquias.service';
@@ -84,19 +84,20 @@ export class DenunciasService {
     });
   }
 
-  async getByFilter(motivo: number, parroquia: number): Promise<Denuncias[]> {
-    let q = this.denunciasRepository
+  async getByFilter(parroquia: number, motivo: number): Promise<Denuncias[]> {
+    console.log(parroquia, motivo);
+    let q = await this.denunciasRepository
       .createQueryBuilder('denuncias')
       .leftJoinAndSelect('denuncias.motivo', 'motivos')
       .leftJoinAndSelect('denuncias.usuario', 'usuarios')
       .leftJoinAndSelect('denuncias.parroquia', 'parroquias');
 
-    if (motivo !== 0 && motivo !== undefined) {
-      q = q.where('denuncias.motivo.id = :motivo', { motivo });
+    if (parroquia !== 0 && parroquia !== undefined) {
+      q = await q.where('denuncias.parroquia.id = :id', { id: parroquia });
     }
 
-    if (parroquia !== 0 && parroquia !== undefined) {
-      q = q.where('denuncias.parroquia.id = :parroquia', { parroquia });
+    if (motivo !== 0 && motivo !== undefined) {
+      q = await q.where('denuncias.motivo.id = :id', { id: motivo });
     }
 
     return q.getMany();

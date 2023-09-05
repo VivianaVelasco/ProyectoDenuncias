@@ -24,7 +24,6 @@ export class DenunciasController {
   @Get('/recents')
   // @HttpCode(200)
   async getRecentDenuncias() {
-    console.log('XD');
     const res = await this.denunciasService.findFiveRecent();
     return res;
   }
