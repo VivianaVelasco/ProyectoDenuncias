@@ -13,6 +13,7 @@ class DenunciasProvider extends ChangeNotifier {
   List<Parroquia> parroquias = [];
   List<Motivo> motivos = [];
   List<Denuncia> denuncias = [];
+  List<Denuncia> denunciasUsuario = [];
   late Denuncia denuncia;
 
   bool initialLoading = true;
@@ -83,6 +84,15 @@ class DenunciasProvider extends ChangeNotifier {
     final List<Denuncia> denunciasResult =
         await denunciasService.getByFilter(idParroquia, idDenuncia);
     denuncias.addAll(denunciasResult);
+    initialLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> getDenunciaByUsuario(int idUsuario) async {
+    initialLoading = true;
+    final List<Denuncia> denunciasResult =
+        await denunciasService.getByUsuario(idUsuario);
+    denunciasUsuario.addAll(denunciasResult);
     initialLoading = false;
     notifyListeners();
   }

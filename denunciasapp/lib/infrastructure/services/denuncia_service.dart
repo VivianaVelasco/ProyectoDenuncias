@@ -33,6 +33,14 @@ class DenunciaService {
     return denunciasResult;
   }
 
+  Future<List<Denuncia>> getByUsuario(int idUsuario) async {
+    final response = await dio.get("/denuncias/usuario/$idUsuario");
+    final denunciasResult = (response.data as List)
+        .map((denuncia) => DenunciaModel.fromJson(denuncia).toDenunciaEntity())
+        .toList();
+    return denunciasResult;
+  }
+
   Future<int> registerDenuncia(Map<String, dynamic> data) async {
     final response = await dio.post("/denuncias", data: data);
     return response.statusCode ?? 500;

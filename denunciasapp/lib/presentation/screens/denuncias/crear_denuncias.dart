@@ -6,6 +6,7 @@ import 'package:denunciasapp/infrastructure/services/camera_galery_service_impl.
 import 'package:denunciasapp/presentation/provider/denuncias_provider.dart';
 import 'package:denunciasapp/presentation/widgets/inputs/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class CrearDenunciasScreen extends StatefulWidget {
@@ -27,12 +28,14 @@ class _CrearDenunciasScreenState extends State<CrearDenunciasScreen> {
   String photoURL = "";
 
   TextEditingController dateCtl = TextEditingController();
+  TextEditingController titleCtl = TextEditingController();
+  TextEditingController descriptionCtl = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final discoverProvider = context.watch<DenunciasProvider>();
-    final motivos = discoverProvider.motivos;
-    final parroquias = discoverProvider.parroquias;
+    final denunciasProvider = context.watch<DenunciasProvider>();
+    final motivos = denunciasProvider.motivos;
+    final parroquias = denunciasProvider.parroquias;
     return Scaffold(
         appBar: AppBar(title: const Text("Crear Denuncia")),
         body: Form(
@@ -67,9 +70,9 @@ class _CrearDenunciasScreenState extends State<CrearDenunciasScreen> {
                 ),
                 const SizedBox(height: 15),
                 CustomTextFormField(
+                  controller: titleCtl,
                   label: "Nombre de la denuncia",
                   hint: "Ex. Robo en Ceibos",
-                  onChanged: (value) => title = value,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Debes ingresar el titulo de la denuncia';
@@ -80,9 +83,9 @@ class _CrearDenunciasScreenState extends State<CrearDenunciasScreen> {
                 ),
                 const SizedBox(height: 15),
                 CustomTextFormField(
+                  controller: descriptionCtl,
                   label: "Detalles",
                   hint: "Ex. Ocurrio en ... y despues ...",
-                  onChanged: (value) => description = value,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Debes ingresar los detalles de la denuncia.';
@@ -148,23 +151,58 @@ class _CrearDenunciasScreenState extends State<CrearDenunciasScreen> {
                         final formValid =
                             formKey.currentState?.validate() ?? false;
                         final dataJSON = {
-                          "title": title,
-                          "description": description,
+                          "title": titleCtl.text,
+                          "description": descriptionCtl.text,
                           "idMotivo": 3,
                           "dateIndicent": dateCtl.text,
-                          "urlPhoto": "foto1.png",
-                          "idUsuario": 3,
+                          "idUsuario": idUsuario,
                           "idParroquia": idParroquia,
-                          "imgUrl": photoURL
+                          "urlPhoto": photoURL
                         };
                         if (formValid) {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: const Text("Envio de Formulario"),
-                              content: Text(json.encode(dataJSON).toString()),
-                            ),
-                          );
+                          denunciasProvider
+                              .createDenuncia(dataJSON)
+                              .then((value) {
+                            final statusCode =
+                                denunciasProvider.statusCodeRequest;
+                            if (statusCode == 200) {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: const Text(
+                                    "Denuncia Creada Sastifactoriamente",
+                                    style: TextStyle(color: Colors.green),
+                                  ),
+                                  content: const Text(
+                                      "Tu denuncia ha sido guarda correctamente. Revisa tu historial de denuncias."),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => context.go('/home'),
+                                      child: const Text('Aceptar'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            } else {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: const Text(
+                                    "Ocurrio un error",
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                  content: const Text(
+                                      "Estamos teniendo problemas para guardar correctamente. Intenta mas tarde."),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text('Ok'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                          });
                         }
                       },
                       style: ElevatedButton.styleFrom(
