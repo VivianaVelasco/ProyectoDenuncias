@@ -78,13 +78,14 @@ class DenunciasProvider extends ChangeNotifier {
     return denunciaResult;
   }
 
-  Future<void> getDenunciaByFilters(int idParroquia, int idDenuncia) async {
+  Future<List<Denuncia>> getDenunciaByFilters(
+      int idParroquia, int idDenuncia) async {
     initialLoading = true;
     final List<Denuncia> denunciasResult =
         await denunciasService.getByFilter(idParroquia, idDenuncia);
-    denuncias.addAll(denunciasResult);
     initialLoading = false;
     notifyListeners();
+    return denunciasResult;
   }
 
   Future<void> getDenunciaByUsuario(int idUsuario) async {

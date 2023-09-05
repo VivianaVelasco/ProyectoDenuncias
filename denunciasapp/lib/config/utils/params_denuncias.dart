@@ -7,7 +7,7 @@ class ParamsDenuncias {
   String getParams() {
     String params = "";
     if (idParroquia != 0) params += "parroquia=$idParroquia";
-    if (idMotivo != 0) params += "motivo=$idMotivo";
+    if (idMotivo != 0) params += "&motivo=$idMotivo";
     return params;
   }
 }
