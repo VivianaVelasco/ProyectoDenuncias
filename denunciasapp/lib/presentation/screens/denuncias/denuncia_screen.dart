@@ -177,7 +177,7 @@ class _DenunciaScreenState extends State<DenunciaScreen> {
                                 final dataJSON = {
                                   "title": titleCtl.text,
                                   "description": descriptionCtl.text,
-                                  "idMotivo": 3,
+                                  "idMotivo": idMotivo,
                                   "idUsuario": idUsuario,
                                   "idParroquia": idParroquia,
                                   "urlPhoto": photoURL

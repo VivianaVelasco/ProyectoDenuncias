@@ -152,7 +152,7 @@ class _CrearDenunciasScreenState extends State<CrearDenunciasScreen> {
                         final dataJSON = {
                           "title": titleCtl.text,
                           "description": descriptionCtl.text,
-                          "idMotivo": 3,
+                          "idMotivo": idMotivo,
                           "dateIndicent": dateCtl.text,
                           "idUsuario": idUsuario,
                           "idParroquia": idParroquia,
