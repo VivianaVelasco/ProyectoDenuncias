@@ -71,9 +71,7 @@ class DenunciasProvider extends ChangeNotifier {
         await denunciasService.deleteDenunciaById(idDenuncia);
     statusCodeRequest = statusCode;
     initialLoading = false;
-    print(denunciasUsuario);
     await getDenunciaByUsuario(usuarioId);
-    print(denunciasUsuario);
     await getRecentsDenuncias();
     notifyListeners();
   }

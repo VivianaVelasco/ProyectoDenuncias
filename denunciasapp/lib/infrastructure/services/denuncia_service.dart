@@ -18,7 +18,8 @@ class DenunciaService {
   Future<Denuncia> getById(int idDenuncia) async {
     final response = await dio.get("/denuncias/$idDenuncia");
     final denunciaResult =
-        DenunciaModel.fromJson(response.data).toDenunciaEntity();
+        DenunciaModel.fromJson(response.data as Map<String, dynamic>)
+            .toDenunciaEntity();
     return denunciaResult;
   }
 

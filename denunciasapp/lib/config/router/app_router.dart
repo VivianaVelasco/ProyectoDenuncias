@@ -13,9 +13,10 @@ final appRouter = GoRouter(initialLocation: '/', routes: [
       builder: (context, state) => CrearDenunciasScreen()),
   GoRoute(path: '/denuncias', builder: (context, state) => DenunciasScreen()),
   GoRoute(
+      name: "denuncia",
       path: '/denuncias/:id',
       builder: (context, state) {
-        final id = int.parse(state.pathParameters["id"] ?? "");
+        final int id = int.parse(state.pathParameters["id"] ?? "");
         return DenunciaScreen(id: id);
       }),
   GoRoute(

@@ -62,7 +62,13 @@ export class DenunciasService {
 
   // Viviana Velasco
   async findOne(id: number) {
-    return await this.denunciasRepository.findOneBy({ id });
+    return await this.denunciasRepository
+      .createQueryBuilder('denuncias')
+      .leftJoinAndSelect('denuncias.motivo', 'motivos')
+      .leftJoinAndSelect('denuncias.usuario', 'usuarios')
+      .leftJoinAndSelect('denuncias.parroquia', 'parroquias')
+      .where('denuncias.id = :id', { id })
+      .getOne();
   }
 
   async delete(id: number) {

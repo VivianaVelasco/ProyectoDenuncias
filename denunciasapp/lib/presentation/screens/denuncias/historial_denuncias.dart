@@ -1,5 +1,6 @@
 import 'package:denunciasapp/presentation/provider/denuncias_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class HistorialDenunciasScreen extends StatefulWidget {
@@ -65,7 +66,9 @@ class _HistorialDenunciasScreenState extends State<HistorialDenunciasScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              context.go("/denuncias/${item.id}");
+                            },
                             child: const Text('Editar'),
                           ),
                           TextButton(

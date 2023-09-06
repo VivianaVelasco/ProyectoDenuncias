@@ -68,10 +68,13 @@ export class DenunciasController {
     return response;
   }
 
-  @Get('/:id')
+  @Get(':id')
   async getDenunciaById(@Param('id') id: number) {
     try {
       const response = await this.denunciasService.findOne(id);
+      if (!response) {
+        return { message: 'No se encontro esta denuncia con ese id.' };
+      }
       return response;
     } catch (error) {
       return new HttpException(
