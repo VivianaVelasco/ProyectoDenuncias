@@ -87,6 +87,9 @@ export class DenunciasService {
           id,
         },
       },
+      order: {
+        createdAt: 'DESC',
+      },
     });
   }
 
