@@ -1,4 +1,6 @@
+import 'package:denunciasapp/presentation/provider/denuncias_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HistorialDenunciasScreen extends StatefulWidget {
   const HistorialDenunciasScreen({super.key});
@@ -13,50 +15,8 @@ class _HistorialDenunciasScreenState extends State<HistorialDenunciasScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> historial = [
-      {
-        'titulo': 'Maltrato Animal',
-        'motivo': 'Fauna Urbana',
-        'parroquia': 'Olemdo-San Alejo',
-        'fecha': '10-10-2022'
-      },
-      {
-        'titulo': 'Robo a viviendas',
-        'motivo': 'Seguridad',
-        'parroquia': 'Sucre',
-        'fecha': '10-08-2023'
-      },
-      {
-        'titulo': 'Asalto a mano armada',
-        'motivo': 'Seguridad',
-        'parroquia': 'Roca',
-        'fecha': '25-08-2023'
-      },
-      {
-        'titulo': 'Asalto a mano armada',
-        'motivo': 'Seguridad',
-        'parroquia': 'Roca',
-        'fecha': '10-08-2023'
-      },
-      {
-        'titulo': 'Asalto a mano armada',
-        'motivo': 'Seguridad',
-        'parroquia': 'Roca',
-        'fecha': '25-08-2023'
-      },
-      {
-        'titulo': 'Pelea entre vecinos',
-        'motivo': 'Espectáculos Públicos',
-        'parroquia': 'Carbo-Concepción',
-        'fecha': '25-08-2023'
-      },
-      {
-        'titulo': 'Construcción en área privada',
-        'motivo': 'Construcción',
-        'parroquia': 'Bolívar-Sagrario',
-        'fecha': '12-08-2023'
-      },
-    ];
+    final denunciasProvider = context.watch<DenunciasProvider>();
+    final historial = denunciasProvider.denunciasUsuario;
 
     return Scaffold(
       appBar: AppBar(
@@ -92,13 +52,13 @@ class _HistorialDenunciasScreenState extends State<HistorialDenunciasScreen> {
                   final item = historial[index];
                   return Card(
                     child: ListTile(
-                      title: Text(item['titulo']),
+                      title: Text(item.title),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Motivo: ${item['motivo']}'),
-                          Text('Parroquia: ${item['parroquia']}'),
-                          Text('Fecha: ${item['fecha']}'),
+                          Text('Motivo: ${item.motivo.name}'),
+                          Text('Parroquia: ${item.parroquia.name}'),
+                          Text('Fecha: ${item.createdAt}'),
                         ],
                       ),
                       trailing: Row(
@@ -113,7 +73,34 @@ class _HistorialDenunciasScreenState extends State<HistorialDenunciasScreen> {
                               showDialog(
                                 context: context,
                                 builder: (context) {
-                                  return const AdvertenciaEliminar();
+                                  return AlertDialog(
+                                    title: const Text(
+                                      'Eliminar denuncia',
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    content: const Text(
+                                      '¿Deseas eliminar esta denuncia?',
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context, 'Cancelar');
+                                        },
+                                        child: const Text('Cancelar'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          print("Eliminando: ${item.id}");
+                                          denunciasProvider
+                                              .deleteDenuncia(item.id)
+                                              .then((value) =>
+                                                  Navigator.pop(context));
+                                        },
+                                        child: const Text('Eliminar'),
+                                      ),
+                                    ],
+                                  );
                                 },
                               );
                             },
@@ -129,38 +116,6 @@ class _HistorialDenunciasScreenState extends State<HistorialDenunciasScreen> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class AdvertenciaEliminar extends StatelessWidget {
-  const AdvertenciaEliminar({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text(
-        'Eliminar denuncia',
-        textAlign: TextAlign.center,
-      ),
-      content: const Text(
-        '¿Deseas eliminar esta denuncia?',
-        textAlign: TextAlign.center,
-      ),
-      actions: <Widget>[
-        TextButton(
-          onPressed: () {
-            Navigator.pop(context, 'Cancelar');
-          },
-          child: const Text('Cancelar'),
-        ),
-        TextButton(
-          onPressed: () {
-            Navigator.pop(context, 'Eliminar');
-          },
-          child: const Text('Eliminar'),
-        ),
-      ],
     );
   }
 }
