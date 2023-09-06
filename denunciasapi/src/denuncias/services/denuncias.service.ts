@@ -92,6 +92,14 @@ export class DenunciasService {
       .leftJoinAndSelect('denuncias.usuario', 'usuarios')
       .leftJoinAndSelect('denuncias.parroquia', 'parroquias');
 
+    if (parroquia !== undefined && motivo !== undefined) {
+      q = await q.where(
+        'denuncias.parroquia.id = :id AND denuncias.motivo.id = :motivo',
+        { id: parroquia, motivo },
+      );
+      return await q.getMany();
+    }
+
     if (parroquia !== 0 && parroquia !== undefined) {
       q = await q.where('denuncias.parroquia.id = :id', { id: parroquia });
     }
