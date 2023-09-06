@@ -1,5 +1,6 @@
 //import 'package:denunciasapp/presentation/widgets/inputs/custom_text_form_field.dart';
 import 'package:denunciasapp/domains/entities/denuncia.dart';
+import 'package:denunciasapp/presentation/widgets/complaint.dart';
 import 'package:flutter/material.dart';
 //import 'dart:convert';
 //import 'dart:io';
@@ -138,7 +139,7 @@ class _DenunciasScreenState extends State<DenunciasScreen> {
                         : ListView.builder(
                             itemCount: denuncias.length,
                             itemBuilder: (context, index) {
-                              return Text(denuncias[index].title);
+                              return Complaint(denuncia: denuncias[index]);
                             },
                           ),
                   ),
